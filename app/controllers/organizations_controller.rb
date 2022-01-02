@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
     before_action :find_organization, except:[:new,:create,:index]
-
+    before_action :authenticate_user!,  except:[:index,:show]
     def index
         @organizations = Organization.all
     end
@@ -11,8 +11,7 @@ class OrganizationsController < ApplicationController
 
     def create
         @organization = Organization.create(name:params[:organization][:name],description:params[:organization][:description])
-        render json:@organization
-
+        redirect_to organizations_path
     end
 
     def update
